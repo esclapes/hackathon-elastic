@@ -1,0 +1,17 @@
+elasticsearch:
+  image: elasticsearch:latest
+  container_name: elasticsearch
+  command: elasticsearch -Des.network.host=0.0.0.0 -Dcluster.name=mycluster -Dnode.name=mynode -Dpath.repo=/data-volume
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+  volumes:
+    - ./data:/data-volume
+  environment:
+    - ES_HEAP_SIZE=2G
+sense:
+  build: kibana/
+  ports:
+    - "5601:5601"
+  links:
+    - elasticsearch
